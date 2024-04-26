@@ -90,6 +90,8 @@ public:
 
     virtual void AddColumn(std::unique_ptr<Column> column) = 0;
 
+    virtual void AddColumn(const std::string& title, std::shared_ptr<ICellFormatter> formatter, Alignment align) = 0;
+
     virtual void AddRow(const std::vector<std::any>& row) = 0;
 
     virtual void AddRows(const std::vector<std::vector<std::any>>& rows) = 0;

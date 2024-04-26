@@ -14,6 +14,11 @@ public:
         m_columns.emplace_back(std::move(column));
     }
 
+    virtual void AddColumn(const std::string& title, std::shared_ptr<ICellFormatter> formatter, Alignment align) override
+    {
+        m_columns.emplace_back(std::make_unique<Column>(title, formatter, align));
+    }
+
     virtual void AddRow(const std::vector<std::any>& row) override
     {
         m_rows.emplace_back(row);
