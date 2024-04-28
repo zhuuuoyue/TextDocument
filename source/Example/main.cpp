@@ -3,6 +3,7 @@
 #include "ITextDocument.h"
 #include "IParagraph.h"
 #include "ITable.h"
+#include "IBarPlot.h"
 
 #include <any>
 #include <sstream>
@@ -32,6 +33,24 @@ public:
         Point pt = std::any_cast<Point>(value);
         std::stringstream ss;
         ss << "[ " << pt.x << ", " << pt.y << " ]";
+        return ss.str();
+    }
+};
+
+class DoubleFormatter final : public IValueFormatter
+{
+public:
+    virtual std::string Format(double value, std::size_t index, const std::vector<BarPlotItem>& data) const override
+    {
+        std::stringstream ss;
+        if (value < std::numeric_limits<double>::epsilon())
+        {
+            ss << '(' << std::abs(value) << ')';
+        }
+        else
+        {
+            ss << value;
+        }
         return ss.str();
     }
 };
@@ -71,8 +90,29 @@ int main()
         table->AddRow(std::vector<std::any>{std::string{ "Hubei" }, 18.59, std::string{ "Wuhan" }, true, Point{ 114, 30 }, 1});
         table->AddRow(std::vector<std::any>{std::string{ "Jiangsu" }, 10.72, std::string{ "Nanjing" }, true, Point{ 118, 32 }, 2});
         table->AddRow(std::vector<std::any>{std::string{ "Shanghai" }, 0.624, std::string{ "Shanghai" }, false, Point{ 121, 31 }, 3});
-
+         
         doc->AddTextObject(std::move(table));
+    }
+
+    {
+        std::unique_ptr<IBarPlot> plot = IBarPlot::Create();
+        plot->AddItems({ {"Hubei", 18.59}, {"Jiangsu", 10.72}, {"Shanghai", 0.624} });
+        doc->AddTextObject(std::move(plot));
+    }
+
+    {
+        std::unique_ptr<IValueFormatter> formatter = std::make_unique<DoubleFormatter>();
+
+        std::unique_ptr<IBarPlot> plot = IBarPlot::Create();
+        plot->SetValueFormatter(std::move(formatter));
+        plot->AddItems({ {"Beijing", -15}, {"Jiangsu", 2}, {"Guangzhou", 13} });
+        doc->AddTextObject(std::move(plot));
+    }
+
+    {
+        std::unique_ptr<IBarPlot> plot = IBarPlot::Create();
+        plot->AddItems({ {"Beijing", -15}, {"Jinan", -8}, {"Zhengzhou", -2} });
+        doc->AddTextObject(std::move(plot));
     }
 
     {

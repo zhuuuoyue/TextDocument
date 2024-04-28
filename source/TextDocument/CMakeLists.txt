@@ -19,6 +19,7 @@ set(PUBLIC_FILES
     ${PROJECT_SOURCE_DIR}/public/INumberedList.h
     ${PROJECT_SOURCE_DIR}/public/IParagraph.h
     ${PROJECT_SOURCE_DIR}/public/ITable.h
+    ${PROJECT_SOURCE_DIR}/public/IBarPlot.h
 )
 
 set(PRIVATE_FILES
@@ -40,6 +41,9 @@ set(PRIVATE_FILES
     ${PROJECT_SOURCE_DIR}/private/List.h
     ${PROJECT_SOURCE_DIR}/private/ITextObject.cpp
     ${PROJECT_SOURCE_DIR}/private/TextObject.h
+    ${PROJECT_SOURCE_DIR}/private/IBarPlot.cpp
+    ${PROJECT_SOURCE_DIR}/private/BarPlot.h
+    ${PROJECT_SOURCE_DIR}/private/BarPlot.cpp
 )
 
 source_group("public" FILES ${PUBLIC_FILES})
