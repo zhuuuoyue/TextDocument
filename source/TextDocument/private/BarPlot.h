@@ -77,6 +77,6 @@ private:
 
     std::unique_ptr<IValueFormatter> m_valueFormatter;
     std::vector<BarPlotItem> m_items;
-    std::size_t m_plotWidth{ 100 };
+    std::size_t m_plotWidth{ 60 };
 };
 }
